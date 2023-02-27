@@ -512,7 +512,7 @@ func (l *InfluxBulkLoad) processBatches(w *HTTPWriter, backoffSrc chan bool, tel
 					break
 				}
 			}
-			delaytime := float64(sleepTime) * 1e3
+			delaytime := float64(sleepTime-l.backoff) / 1e6
 			fmt.Printf("%f,", delaytime)
 
 			if err != nil {
