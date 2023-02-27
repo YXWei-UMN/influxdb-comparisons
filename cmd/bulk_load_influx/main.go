@@ -512,6 +512,9 @@ func (l *InfluxBulkLoad) processBatches(w *HTTPWriter, backoffSrc chan bool, tel
 					break
 				}
 			}
+			delaytime := float64(sleepTime) * 1e3
+			fmt.Printf("%f,", delaytime)
+
 			if err != nil {
 				return fmt.Errorf("Error writing: %s\n", err.Error())
 			}
@@ -521,9 +524,8 @@ func (l *InfluxBulkLoad) processBatches(w *HTTPWriter, backoffSrc chan bool, tel
 		// and incidentally includes compression time:
 		lagMillis := float64(time.Now().UnixNano()-ts) / 1e6
 
-		fmt.Printf("batch duration %f \n", lagMillis)
+		fmt.Printf("%f \n", lagMillis)
 
-		//TODO print lagMillis (i.e., time duration of processing one batch) -> output to a log for future analysis
 		/*f, err := os.OpenFile("batch_duration.log", os.O_CREATE|os.O_APPEND|os.O_RDWR, os.ModePerm)
 
 		if err != nil {
